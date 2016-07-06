@@ -1,0 +1,83 @@
+package stageElement;
+
+import java.util.LinkedList;
+
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+
+public class ComboBoxElement extends StageElement{
+	
+	static String codeSnippet;//should it be a linked list of string too?
+	static LinkedList<String> options;
+	
+	public ComboBoxElement(Node e, int x, int y, String c, LinkedList<String> o){
+		super(e, x, y);
+		this.codeSnippet = c;
+		this.options = o;
+	}
+	
+	
+	//This method must return a Pane filled with edit options,
+	//use helpers to added different kinds of display elements
+	//add them all to the returned pane
+	//Code below is good for 1 component of the final edit pane.
+	
+	public Pane displayEditOptions(Pane propertyPane, Node element) {
+		
+		//@Override
+		//element.getItems().addAll(options);
+		Pane newPane = new Pane();
+		VBox comboBoxPane = new VBox(10);
+		VBox comboBoxOptions = new VBox(2);
+		
+		Label EditPaneName = new Label("ComboBox Options");
+		EditPaneName.setLayoutX(20);
+		EditPaneName.setLayoutY(100);
+		
+		//Move into own method
+		refreshOptions(this.options, comboBoxOptions);
+		
+		ScrollPane s1 = new ScrollPane();
+		s1.setPannable(true);
+		s1.setPrefSize(150, 180);
+		s1.setLayoutX(20);
+		s1.setLayoutY(150);
+		s1.setContent(comboBoxOptions);
+		
+		TextField newEntry = new TextField();
+		newEntry.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	        @Override
+	        public void handle(KeyEvent ke) {
+	        	//
+	            if (ke.getCode().equals(KeyCode.ENTER)) {
+	            	
+	            	newEntry.getText();
+	            }
+	        }
+		});
+		
+	        
+		comboBoxPane.getChildren().addAll(EditPaneName, s1);
+		
+		newPane.getChildren().addAll(comboBoxPane);	
+		return newPane;
+	}
+	
+	public VBox refreshOptions(LinkedList<String> o, VBox comboBoxOptions){
+		for(int i = 0; i < this.options.size(); i++){
+			TextField newEntry = new TextField(this.options.get(i));
+			comboBoxOptions.getChildren().add(newEntry);
+		}
+		return comboBoxOptions;
+		
+	}
+	
+}

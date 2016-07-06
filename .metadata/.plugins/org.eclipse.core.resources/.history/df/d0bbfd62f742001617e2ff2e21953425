@@ -1,0 +1,7 @@
+package CustomApp;
+
+import stageElement.StageElement;
+
+public class LabelElement extends StageElement {
+
+}
